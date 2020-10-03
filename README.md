@@ -1,3 +1,3 @@
 # cg_render
 
-Rendering of solid forms using JS and canvas
+Rendering of solids using JS and canvas
