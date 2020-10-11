@@ -40,7 +40,9 @@ function draw() {
   background(0); // Set the background to black
   
   for (face of faces){
-    triangle(face.v_1.x/5+400, face.v_1.y/5+400, face.v_2.x/5+400, face.v_2.y/5+400, face.v_3.x/5+400,   face.v_3.y/5+400);
+    line(face.v_1.x/5+400, face.v_1.y/5+400, face.v_2.x/5+400, face.v_2.y/5+400);
+    line(face.v_2.x/5+400, face.v_2.y/5+400, face.v_3.x/5+400, face.v_3.y/5+400);
+    line(face.v_3.x/5+400, face.v_3.y/5+400, face.v_1.x/5+400, face.v_1.y/5+400)
   }
   
 }
