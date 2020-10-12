@@ -4,10 +4,11 @@ const fs = require('fs');
 const getVertices = async (csvPath) => {
   try {  
     const vertices = await csv({
+      noheader:true,
       headers: ['id', 'x', 'y'],
       checkType: true
     }).fromFile(csvPath);
-  
+
     return vertices
   } catch (error) {
     console.log('Couldn\'t transform .csv', { error });
@@ -31,6 +32,7 @@ const validateFace = (face, vertices) => {
 const getFaces = async (csvPath, vertices) => {
   try {  
     const faces = await csv({
+      noheader:true,
       headers: ['id', 'v_1', 'v_2', 'v_3'],
       checkType: true
     }).fromFile(csvPath);

@@ -1,4 +1,3 @@
-const offset = 400;
 const ratio = 0.2;
 
 //getting faces and vertices
