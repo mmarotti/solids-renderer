@@ -22,7 +22,7 @@ faces.map(face => { //mudando os vertices para seus respectivos pontos
 
 function setup() {
   // createCanvas must be the first statement
-  createCanvas(800, 800);
+  createCanvas(800, 800, WEBGL);
   stroke(255, 0, 0); // Set line drawing color to red
   strokeWeight(5); //set stroke size
   frameRate(1);
