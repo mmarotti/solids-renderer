@@ -1,3 +1,6 @@
+const offset = 400;
+const ratio = 0.2;
+
 //getting faces and vertices
 $.ajaxSetup({
   async: false
@@ -29,6 +32,13 @@ function setup() {
   noLoop(); //only draw once
 };
 
+function transforCoordinate (coordinate) {
+  if (ratio) coordinate = coordinate * ratio;
+  if (offset) coordinate = coordinate + offset;
+
+  return coordinate;
+};
+
 // The statements in draw() are executed until the
 // program is stopped. Each statement is executed in
 // sequence and after the last line is read, the first
@@ -38,9 +48,9 @@ function draw() {
   
   for (face of faces){
     beginShape();
-    vertex(face.v_1.x, face.v_1.y);
-    vertex(face.v_2.x, face.v_2.y);
-    vertex(face.v_3.x, face.v_3.y);
+    for (v of ['v_1', 'v_2', 'v_3']) {
+      vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y))
+    };
     endShape();
   }
 }
