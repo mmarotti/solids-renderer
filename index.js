@@ -33,7 +33,7 @@ const getFaces = async (csvPath, vertices) => {
   try {  
     const faces = await csv({
       noheader:true,
-      headers: ['id', 'v_1', 'v_2', 'v_3'],
+      headers: ['id', 'v_1', 'v_2', 'v_3', 'fill'],
       checkType: true
     }).fromFile(csvPath);
   

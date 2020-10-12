@@ -27,9 +27,8 @@ faces.map(face => { //mudando os vertices para seus respectivos pontos
 function setup() {
   // createCanvas must be the first statement
   createCanvas(800, 800, WEBGL);
-  stroke(255, 0, 0); // Set line drawing color to red
+  stroke('#000'); // Set line drawing color to red
   strokeWeight(2); //set stroke size
-  frameRate(1);
   noLoop(); //only draw once
 };
 
@@ -44,10 +43,14 @@ function transformCoordinate (coordinate) {
 // sequence and after the last line is read, the first
 // line is executed again.
 function draw() {
-  background(0); // Set the background to black
+  background('#000'); // Set the background to black
+
   beginShape(TRIANGLES);
   for (face of faces){
-    for (v of ['v_1', 'v_2', 'v_3']) vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
+    fill(face.fill);
+    for (v of ['v_1', 'v_2', 'v_3']) {
+      vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
+    }
   }
   endShape();
 }
