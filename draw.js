@@ -34,7 +34,6 @@ function setup() {
 
 function transforCoordinate (coordinate) {
   if (ratio) coordinate = coordinate * ratio;
-  if (offset) coordinate = coordinate + offset;
 
   return coordinate;
 };
