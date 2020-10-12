@@ -32,7 +32,7 @@ function setup() {
   noLoop(); //only draw once
 };
 
-function transforCoordinate (coordinate) {
+function transformCoordinate (coordinate) {
   if (ratio) coordinate = coordinate * ratio;
 
   return coordinate;
