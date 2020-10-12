@@ -4,10 +4,10 @@ const ratio = 0.2;
 $.ajaxSetup({
   async: false
 });
-$.getJSON("faces.json", function (json) {
+$.getJSON("data/faces.json", function (json) {
   faces = json;
 });
-$.getJSON("vertices.json", function (json) {
+$.getJSON("data/vertices.json", function (json) {
   vertices = json
 });
 
@@ -20,15 +20,12 @@ faces.map(face => { //mudando os vertices para seus respectivos pontos
   face.v_1 = returnVerticeData(face.v_1);
   face.v_2 = returnVerticeData(face.v_2);
   face.v_3 = returnVerticeData(face.v_3);
-
-  console.log(face)
 })
 
 function setup() {
-  // createCanvas must be the first statement
-  createCanvas(800, 800, WEBGL);
-  stroke('#000'); // Set line drawing color to red
-  strokeWeight(2); //set stroke size
+  createCanvas(800, 800, WEBGL); // createCanvas must be the first statement
+  stroke('#F7CEAD'); // Set line drawing color
+  strokeWeight(2); // Set stroke size
   noLoop(); //only draw once
 };
 
@@ -46,11 +43,18 @@ function draw() {
   background('#000'); // Set the background to black
 
   beginShape(TRIANGLES);
+
   for (face of faces){
-    fill(face.fill);
+    const {
+      fill,
+    } = face;
+
+    fill ? fill(fill) : noFill();
+
     for (v of ['v_1', 'v_2', 'v_3']) {
       vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
     }
   }
+
   endShape();
 }

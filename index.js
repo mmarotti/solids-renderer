@@ -54,8 +54,8 @@ const index = async () => {
   const faces = await getFaces('./mocks/faces.csv', vertices);
   let jsonFaces = JSON.stringify(faces);
 
-  fs.writeFileSync('vertices.json', jsonVert);
-  fs.writeFileSync('faces.json', jsonFaces);
+  fs.writeFileSync('data/vertices.json', jsonVert);
+  fs.writeFileSync('data/faces.json', jsonFaces);
 };
 
 index()
