@@ -48,7 +48,10 @@ function draw() {
   
   for (face of faces){
     beginShape();
-    for (v of ['v_1', 'v_2', 'v_3']) vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
+    for (v of ['v_1', 'v_2', 'v_3']) {
+      console.log({ x: face[v].x, y: face[v].y })
+      vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
+    }
     endShape();
   }
 }
