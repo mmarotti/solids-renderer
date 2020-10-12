@@ -46,10 +46,10 @@ function draw() {
 
   for (face of faces){
     const {
-      fill,
+      fill: fillColor,
     } = face;
 
-    fill ? fill(fill) : noFill();
+    fillColor ? fill(fillColor) : noFill();
 
     for (v of ['v_1', 'v_2', 'v_3']) {
       vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
