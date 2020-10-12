@@ -1,6 +1,5 @@
 const csv = require('csvtojson');
-const fs = require('fs')
-
+const fs = require('fs');
 
 const getVertices = async (csvPath) => {
   try {  
@@ -48,8 +47,6 @@ const getFaces = async (csvPath, vertices) => {
 
 const index = async () => {
   const vertices = await getVertices('./mocks/vertices.csv');
-
-  console.log({ vertices });
   let jsonVert = JSON.stringify(vertices);
 
   const faces = await getFaces('./mocks/faces.csv', vertices);
@@ -57,8 +54,6 @@ const index = async () => {
 
   fs.writeFileSync('vertices.json', jsonVert);
   fs.writeFileSync('faces.json', jsonFaces);
-
-  console.log({ faces });
 };
 
 index()
