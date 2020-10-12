@@ -45,13 +45,9 @@ function transformCoordinate (coordinate) {
 // line is executed again.
 function draw() {
   background(0); // Set the background to black
-  
+  beginShape(TRIANGLES);
   for (face of faces){
-    beginShape();
-    for (v of ['v_1', 'v_2', 'v_3']) {
-      console.log({ x: face[v].x, y: face[v].y })
-      vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
-    }
-    endShape();
+    for (v of ['v_1', 'v_2', 'v_3']) vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
   }
+  endShape();
 }
