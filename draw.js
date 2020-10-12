@@ -21,7 +21,7 @@ faces.map(face => { //mudando os vertices para seus respectivos pontos
   face.v_2 = returnVerticeData(face.v_2);
   face.v_3 = returnVerticeData(face.v_3);
 
-  console.log.log(face)
+  console.log(face)
 })
 
 function setup() {
