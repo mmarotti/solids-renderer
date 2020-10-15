@@ -5,7 +5,7 @@ const getVertices = async (csvPath) => {
   try {  
     const vertices = await csv({
       noheader:true,
-      headers: ['id', 'x', 'y'],
+      headers: ['id', 'x', 'y', 'z'],
       checkType: true
     }).fromFile(csvPath);
 
