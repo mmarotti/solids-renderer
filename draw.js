@@ -49,7 +49,7 @@ function draw() {
       fill: fillColor,
     } = face;
 
-    fillColor ? fill(fillColor) : noFill();
+    fillColor ? fill(`#${fillColor}`) : noFill();
 
     for (v of ['v_1', 'v_2', 'v_3']) {
       vertex(transformCoordinate(face[v].x), transformCoordinate(face[v].y));
