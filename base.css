@@ -8,13 +8,8 @@ body{
   font-family: sans-serif;
 }
 
-
-#main{
-  background-color: lightcoral;
-  border-radius: 5rem
-}
 .main-color{
-  color:coral;
+  color:#F7CEAD;
 }
 
 .div{
@@ -22,5 +17,22 @@ body{
 }
 
 main{
-  align-self:center;
+  align-self: center;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+}
+
+.Input__wrapper {
+  color: #F7CEAD;
+  display: grid;
+
+  margin: 10px;
+}
+
+.Input__wrapper span {
+  font-weight: bold;
+  margin-bottom: 10px;
 }
