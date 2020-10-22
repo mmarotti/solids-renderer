@@ -57,7 +57,10 @@ function getVertex (id, vertices) {
 };
 
 function multiplyMatrix (m_1, m_2) {
-  if (m_1[0].length != m_2[0].length) return null;
+  if (!m_2) return m_1;
+  if (!m_1) return m_2;
+  if (m_1[0].length != m_2.length) return null;
+
   var resultMatrix = [];
   var actualRow;
   var sum;
@@ -66,8 +69,8 @@ function multiplyMatrix (m_1, m_2) {
     actualRow = [];
     for(var j = 0; j<m_2[0].length; j++){
       sum = 0;
-      for(var k = 0; k<m_2[0].length; k++) {
-        sum += m_1[i][k]*m_2[j][k];
+      for(var k = 0; k<m_2.length; k++) {
+        sum += m_1[i][k]*m_2[k][j];
       }
       actualRow.push(sum);
     }
@@ -78,19 +81,20 @@ function multiplyMatrix (m_1, m_2) {
 }
 
 function transformVertices (vertices, transformations) {
-  let verticesMatrix = vertices.map(({x, y, z}) => [x,y,z]);
+  let verticesMatrix = vertices.map(({x, y, z}) => [[x],[y],[z]]);
+  let transformationMatrix;
   for (let transformation in transformations) {
-    verticesMatrix = multiplyMatrix(verticesMatrix, transformations[transformation]);
+    transformationMatrix = multiplyMatrix(transformations[transformation], transformationMatrix);
   }
   let newVertices = [];
-  for (let [i, [xlin,ylin,zlin]] of verticesMatrix.entries()) {
-    console.log(vertices[i].id, xlin, ylin, zlin);
+  for(let i = 0; i<verticesMatrix.length; i++) {
+    let [[new_x], [new_y], [new_z]] = multiplyMatrix(transformationMatrix, verticesMatrix[i]);
     newVertices.push({
                         id : vertices[i].id,
-                        x : xlin, 
-                        y : ylin,
-                        z : zlin, 
-                      });
+                        x : new_x,
+                        y : new_y,
+                        z : new_z,
+    });
   }
   return newVertices;
 }
@@ -113,7 +117,6 @@ function draw() {
   console.log("Drawing", faces, vertices);
 
   var transformedVertices = transformVertices(vertices, transformations);
-  
 
   for (const face of faces) {
     const {
