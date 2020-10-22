@@ -28,11 +28,17 @@ $(document).ready(() => {
   });
 
   $("#ratio").change((event) => {
+    let values = event.target.value.split(",");
+    console.log(values);
+    let ratioTransformation = [[parseFloat(values[0]), 0, 0],
+                               [0, parseFloat(values[1]), 0],
+                               [0, 0, parseFloat(values[2])]];
+
     updateState({
       ...state,
       transformations: {
         ...state.transformations,
-        ratio: event.target.value
+        ratio: ratioTransformation,
       }
     });
   });
@@ -50,17 +56,44 @@ function getVertex (id, vertices) {
   return vertices.find(vertice => vertice.id === id);
 };
 
-function transformCoordinate (coordinate) {
-  const {
-    transformations: {
-      ratio,
-    },
-  } = state;
+function multiplyMatrix (m_1, m_2) {
+  if (m_1[0].length != m_2[0].length) return null;
+  var resultMatrix = [];
+  var actualRow;
+  var sum;
 
-  if (ratio) coordinate = coordinate * ratio;
+  for(var i = 0; i<m_1.length; i++) {
+    actualRow = [];
+    for(var j = 0; j<m_2[0].length; j++){
+      sum = 0;
+      for(var k = 0; k<m_2[0].length; k++) {
+        sum += m_1[i][k]*m_2[j][k];
+      }
+      actualRow.push(sum);
+    }
+    resultMatrix.push(actualRow);
+  }
 
-  return coordinate;
-};
+  return resultMatrix;
+}
+
+function transformVertices (vertices, transformations) {
+  let verticesMatrix = vertices.map(({x, y, z}) => [x,y,z]);
+  for (let transformation in transformations) {
+    verticesMatrix = multiplyMatrix(verticesMatrix, transformations[transformation]);
+  }
+  let newVertices = [];
+  for (let [i, [xlin,ylin,zlin]] of verticesMatrix.entries()) {
+    console.log(vertices[i].id, xlin, ylin, zlin);
+    newVertices.push({
+                        id : vertices[i].id,
+                        x : xlin, 
+                        y : ylin,
+                        z : zlin, 
+                      });
+  }
+  return newVertices;
+}
 
 // The statements in draw() are executed until the
 // program is stopped. Each statement is executed in
@@ -70,13 +103,17 @@ function draw() {
   const {
     faces,
     vertices,
+    transformations,
   } = state;
 
   // Clear board
   clear();
   beginShape(TRIANGLES);
 
-  console.log("Drawing", faces, vertices)
+  console.log("Drawing", faces, vertices);
+
+  var transformedVertices = transformVertices(vertices, transformations);
+  
 
   for (const face of faces) {
     const {
@@ -86,11 +123,8 @@ function draw() {
     fillColor ? fill(`#${fillColor}`) : noFill();
 
     for (v of ['v_1', 'v_2', 'v_3']) {
-      vertex(
-        transformCoordinate(getVertex(face[v], vertices).x), 
-        transformCoordinate(getVertex(face[v], vertices).y),  
-        transformCoordinate(getVertex(face[v], vertices).z),
-      )
+      let transformedV = getVertex(face[v], transformedVertices);
+      vertex(transformedV.x, transformedV.y, transformedV.z);
     }
   }
 
