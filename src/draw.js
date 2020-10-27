@@ -27,23 +27,31 @@ $(document).ready(() => {
     );
   });
 
-  $("#ratio").change((event) => {
+  $("#ratio").on('input', (event) => {
     const [x, y, z] = event.target.value.split(",");
-
-    const ratioTransformation = [
-      [parseFloat(x), 0, 0],
-      [0, parseFloat(y), 0],
-      [0, 0, parseFloat(z)],
-    ];
-
+    
     updateState({
       ...state,
       transformations: {
         ...state.transformations,
-        ratio: ratioTransformation,
+        ratio: createRatioMatrix(x,y,z),
       }
     });
   });
+  $(".shear").on('input', () => {
+    const x = $("#shear_x").val();
+    const y = $("#shear_y").val();
+    updateState({
+      ...state,
+      transformations: {
+        ...state.transformations,
+        shear_x: createShearMatrix_X(x),
+        shear_y: createShearMatrix_Y(y),
+      }
+    });
+
+  })
+    
 });
 
 function setup() {

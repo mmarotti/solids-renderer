@@ -21,3 +21,31 @@ function multiplyMatrix (m_1, m_2) {
 
   return resultMatrix;
 }
+
+
+//Escala
+function createRatioMatrix(x,y,z){
+  return [
+    [parseFloat(x), 0, 0],
+    [0, parseFloat(y), 0],
+    [0, 0, parseFloat(z)]
+  ]; 
+}
+
+//Cisalhamento eixo X
+function createShearMatrix_X(x){
+  return [
+    [1, parseFloat(x), 0],
+    [0, 1, 0],
+    [0, 0, 1,]
+  ]; 
+}
+//Cisalhamento eixo Y
+function createShearMatrix_Y(y){
+  return [
+    [1, 0, 0],
+    [parseFloat(y), 1, 0],
+    [0, 0, 1]
+  ]; 
+}
+
