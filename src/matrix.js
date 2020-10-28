@@ -23,7 +23,13 @@ function multiplyMatrix (m_1, m_2) {
 }
 
 
-//Escala
+/*
+Escala
+Formato da matriz:
+|x 0 0|
+|0 y 0|
+|0 0 z|
+*/
 function createRatioMatrix(x,y,z){
   return [
     [parseFloat(x), 0, 0],
@@ -32,7 +38,13 @@ function createRatioMatrix(x,y,z){
   ]; 
 }
 
-//Cisalhamento eixo X
+/*
+Cisalhamento Eixo X
+Formato da matriz:
+|1 x 0|
+|0 1 0|
+|0 0 1|
+*/
 function createShearMatrix_X(x){
   return [
     [1, parseFloat(x), 0],
@@ -40,7 +52,13 @@ function createShearMatrix_X(x){
     [0, 0, 1,]
   ]; 
 }
-//Cisalhamento eixo Y
+/*
+Cisalhamento Eixo Y
+Formato da matriz:
+|1 0 0|
+|y 1 0|
+|0 0 1|
+*/
 function createShearMatrix_Y(y){
   return [
     [1, 0, 0],
