@@ -1,7 +1,8 @@
-
 $(document).ready(() => {
   var elems = document.querySelectorAll('.collapsible');
-  var instances = M.Collapsible.init(elems, {'accordion': true});
+  var instances = M.Collapsible.init(elems, {
+    'accordion': true
+  });
 
   $("#vertices").change((event) => {
     const file = event.target.files[0];
@@ -35,9 +36,10 @@ $(document).ready(() => {
     updateScale()
   });
   $(".shear").on('input', () => {
-   updateShear()
+    updateShear()
 
   })
+
   $("#reset_transforms").on("click", () => {
     $("#ratio_x").val(1);
     $("#ratio_y").val(1);
@@ -50,7 +52,7 @@ $(document).ready(() => {
   setCircle();
 });
 
-function updateScale(){
+function updateScale() {
   const x = $("#ratio_x").val();
   const y = $("#ratio_y").val();
   const z = $("#ratio_z").val();
@@ -64,7 +66,7 @@ function updateScale(){
   });
 }
 
-function updateShear(){
+function updateShear() {
   const x = $("#shear_x").val();
   const y = $("#shear_y").val();
   updateState({
@@ -109,7 +111,10 @@ function transformVertices(vertices, transformations) {
 
   let transformationMatrix;
 
-  for (const transformation in transformations) transformationMatrix = multiplyMatrix(transformations[transformation], transformationMatrix);
+  for (const transformation in transformations) {
+    console.log(transformation);
+    transformationMatrix = multiplyMatrix(transformations[transformation], transformationMatrix)
+  };
 
   let newVertices = [];
 

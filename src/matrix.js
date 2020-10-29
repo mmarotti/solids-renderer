@@ -41,9 +41,9 @@ function createRatioMatrix(x,y,z){
 /*
 Cisalhamento X
 Formato da matriz:
-|1 x 0|
-|0 1 0|
-|0 0 1|
+|1 x|         |1 x 0| 
+|0 1|         |0 1 0|
+              |0 0 1|
 */
 function createShearMatrix_X(x){
   return [
@@ -55,9 +55,9 @@ function createShearMatrix_X(x){
 /*
 Cisalhamento Y
 Formato da matriz:
-|1 0 0|
-|y 1 0|
-|0 0 1|
+|1 0|         |1 0 0| 
+|y 1|         |y 1 0|
+              |0 0 1|
 */
 function createShearMatrix_Y(y){
   return [
