@@ -67,12 +67,14 @@ function updateScale(){
 function updateShear(){
   const x = $("#shear_x").val();
   const y = $("#shear_y").val();
+  const z = $("#shear_z").val();
   updateState({
     ...state,
     transformations: {
       ...state.transformations,
-      shear_x: createShearMatrix_X(x),
-      shear_y: createShearMatrix_Y(y),
+      shear_x: createShearMatrix_X(y,z),
+      shear_y: createShearMatrix_Y(x,z),
+      shear_z: createShearMatrix_Y(x,y),
     }
   });
 }

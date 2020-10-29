@@ -45,11 +45,11 @@ Formato da matriz:
 |0 1 0|
 |0 0 1|
 */
-function createShearMatrix_X(x){
+function createShearMatrix_X(y,z){
   return [
-    [1, parseFloat(x), 0],
-    [0, 1, 0],
-    [0, 0, 1,]
+    [1, 0, 0],
+    [parseFloat(y), 1, 0],
+    [parseFloat(z), 0, 1,]
   ]; 
 }
 /*
@@ -59,11 +59,20 @@ Formato da matriz:
 |y 1 0|
 |0 0 1|
 */
-function createShearMatrix_Y(y){
+function createShearMatrix_Y(x,z){
   return [
-    [1, 0, 0],
-    [parseFloat(y), 1, 0],
+    [1, parseFloat(x), 0],
+    [0, 1, 0],
+    [0, parseFloat(z), 1]
+  ]; 
+}
+
+function createShearMatrix_Z(x,y){
+  return [
+    [1, 0, parseFloat(x)],
+    [0, 1, parseFloat(y)],
     [0, 0, 1]
   ]; 
 }
+
 
