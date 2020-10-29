@@ -39,7 +39,7 @@ function createRatioMatrix(x,y,z){
 }
 
 /*
-Cisalhamento Eixo X
+Cisalhamento X
 Formato da matriz:
 |1 x 0|
 |0 1 0|
@@ -53,7 +53,7 @@ function createShearMatrix_X(x){
   ]; 
 }
 /*
-Cisalhamento Eixo Y
+Cisalhamento Y
 Formato da matriz:
 |1 0 0|
 |y 1 0|
