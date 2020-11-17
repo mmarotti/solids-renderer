@@ -32,12 +32,14 @@ $(document).ready(() => {
     );
   });
 
+  $(".projection").on('input', (event) => {
+    updateProjection();
+  });
   $(".ratio").on('input', (event) => {
     updateScale()
   });
-  $(".shear").on('input', () => {
+  $(".shear").on('input', (event) => {
     updateShear()
-
   })
 
   $("#reset_transforms").on("click", () => {
@@ -46,11 +48,25 @@ $(document).ready(() => {
     $("#ratio_z").val(1);
     $("#shear_x").val(0);
     $("#shear_y").val(0);
+    $('#isometric_projection').prop('checked',false);
     updateScale();
     updateShear();
+    updateProjection();
   })
   setCircle();
 });
+
+function updateProjection() {
+  const isometric = $("#isometric_projection").is(":checked");
+
+  updateState({
+    ...state,
+    transformations: {
+      ...state.transformations,
+      projection: isometric ? getProjectionMatrix("isometric") : undefined,
+    }
+  });
+}
 
 function updateScale() {
   const x = $("#ratio_x").val();
@@ -78,11 +94,6 @@ function updateShear() {
     }
   });
 }
-
-
-
-
-
 
 
 function setup() {

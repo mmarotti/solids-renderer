@@ -67,3 +67,16 @@ function createShearMatrix_Y(y){
   ]; 
 }
 
+function getProjectionMatrix(type){
+  switch (type) {
+    case "isometric":
+      return [
+        [0.707, 0.408, 0],
+        [0, 0.816, 0, 0],
+        [0.707, -0.408, 0, 0],
+        [0, 0, 0, 1],
+      ];
+    default:
+      return false;
+  }
+}
