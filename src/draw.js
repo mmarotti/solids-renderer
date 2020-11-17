@@ -61,10 +61,7 @@ function updateProjection() {
 
   updateState({
     ...state,
-    transformations: {
-      ...state.transformations,
-      projection: isometric ? getProjectionMatrix("isometric") : undefined,
-    }
+    projection: isometric ? getProjectionMatrix("isometric") : undefined,
   });
 }
 
@@ -113,11 +110,13 @@ function transformVertices(vertices, transformations) {
   const verticesMatrix = vertices.map(({
     x,
     y,
-    z
+    z,
+    m
   }) => [
     [x],
     [y],
-    [z]
+    [z],
+    [m]
   ]);
 
   let transformationMatrix;
@@ -133,7 +132,8 @@ function transformVertices(vertices, transformations) {
     const [
       [new_x],
       [new_y],
-      [new_z]
+      [new_z],
+      [old_m]
     ] = multiplyMatrix(transformationMatrix, vertex);
 
     newVertices.push({
@@ -141,11 +141,43 @@ function transformVertices(vertices, transformations) {
       x: new_x,
       y: new_y,
       z: new_z,
+      m: old_m
     });
   })
 
   return newVertices;
 };
+
+function projectVertices(vertices, projection) {
+
+  const verticesMatrix = vertices.map(({
+    x,
+    y,
+    z,
+    m
+  }) => [[x,y,z,m]]
+  );
+
+  let newVertices = [];
+
+  verticesMatrix.forEach((vertex, index) => {
+    const [[
+      new_x,
+      new_y,
+      new_z,
+      old_m
+    ]] = multiplyMatrix(vertex, projection);
+
+    newVertices.push({
+      id: vertices[index].id, // Getting id from vertices array, as it's in same order from verticesMatrix
+      x: new_x,
+      y: new_y,
+      z: new_z,
+      m: old_m
+    });
+  })
+  return newVertices
+}
 
 // The statements in draw() are executed until the
 // program is stopped. Each statement is executed in
@@ -156,6 +188,7 @@ function draw() {
     faces,
     vertices,
     transformations,
+    projection
   } = state;
 
   // Clear board
@@ -163,11 +196,13 @@ function draw() {
   beginShape(TRIANGLES);
 
   const transformedVertices = transformVertices(vertices, transformations);
+  const projectedVertices = projection ? projectVertices(transformedVertices, projection) : transformedVertices
 
   console.log("Drawing", {
     faces,
     vertices,
-    transformedVertices
+    transformedVertices,
+    projectedVertices
   });
 
   for (const face of faces) {
@@ -181,11 +216,12 @@ function draw() {
       const {
         x,
         y,
-        z
-      } = getVertex(face[v], transformedVertices);
+        z,
+        m
+      } = getVertex(face[v], projectedVertices);
 
       // Draw vertex
-      vertex(x, y, z);
+      vertex(x/m, y/m, z/m);
     }
   }
 

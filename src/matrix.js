@@ -32,9 +32,10 @@ Formato da matriz:
 */
 function createRatioMatrix(x,y,z){
   return [
-    [parseFloat(x), 0, 0],
-    [0, parseFloat(y), 0],
-    [0, 0, parseFloat(z)]
+    [parseFloat(x), 0, 0, 0],
+    [0, parseFloat(y), 0, 0],
+    [0, 0, parseFloat(z), 0],
+    [0, 0, 0, 1]
   ]; 
 }
 
@@ -47,9 +48,10 @@ Formato da matriz:
 */
 function createShearMatrix_X(x){
   return [
-    [1, parseFloat(x), 0],
-    [0, 1, 0],
-    [0, 0, 1,]
+    [1, parseFloat(x), 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
   ]; 
 }
 /*
@@ -61,9 +63,10 @@ Formato da matriz:
 */
 function createShearMatrix_Y(y){
   return [
-    [1, 0, 0],
-    [parseFloat(y), 1, 0],
-    [0, 0, 1]
+    [1, 0, 0, 0],
+    [parseFloat(y), 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
   ]; 
 }
 
@@ -71,7 +74,7 @@ function getProjectionMatrix(type){
   switch (type) {
     case "isometric":
       return [
-        [0.707, 0.408, 0],
+        [0.707, 0.408, 0, 0],
         [0, 0.816, 0, 0],
         [0.707, -0.408, 0, 0],
         [0, 0, 0, 1],

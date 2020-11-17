@@ -2,6 +2,7 @@ let state = {
   transformations: {},
   faces: [],
   vertices: [],
+  projection: undefined
 };
 
 function updateState (newState) {

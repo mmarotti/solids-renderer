@@ -6,10 +6,11 @@ function mapToObject (data, type) {
           id,
           x,
           y,
-          z
+          z,
+          m,
         ] = item;
 
-        return { id, x, y, z }
+        return { id, x, y, z, m }
       });
     case 'faces':
       return data.map((item) => {
