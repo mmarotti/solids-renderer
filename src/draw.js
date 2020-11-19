@@ -62,8 +62,27 @@ function updateProjection() {
   updateState({
     ...state,
     projection: isometric ? getProjectionMatrix("isometric") : undefined,
+    gambiarra: false
   });
 }
+
+//Gambiarra Section
+function toggleGambiarra() {
+  const isometric = $("#isometric_projection").is(":checked");
+
+  updateState({
+    ...state,
+    projection: isometric ? (state.gambiarra? getProjectionMatrix("isometric") : getProjectionMatrix("isometric_gambiarra")) : undefined,
+    gambiarra: !state.gambiarra
+  });
+}
+
+function keyPressed(){
+  if(key=='g'){
+    toggleGambiarra()
+  }
+}
+//END
 
 function updateScale() {
   const x = $("#ratio_x").val();

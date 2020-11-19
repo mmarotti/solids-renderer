@@ -64,6 +64,13 @@ function getProjectionMatrix(type){
         [-0.707, 0.408, 0, 0],
         [0, 0, 0, 1],
       ];
+    case "isometric_gambiarra":
+      return [
+        [0.707, 0.408, 0.0005, 0],
+        [0, 0.816, -0.0005, 0],
+        [-0.707, 0.408, 0.0005, 0],
+        [0, 0, 0, 1],
+      ];
     default:
       return false;
   }
