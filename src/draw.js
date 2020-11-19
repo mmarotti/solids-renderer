@@ -80,14 +80,18 @@ function updateScale() {
 }
 
 function updateShear() {
-  const x = $("#shear_x").val();
-  const y = $("#shear_y").val();
+  const xy = parseFloat($("#shear_xy").val());
+  const xz = parseFloat($("#shear_xz").val());
+  const yx = parseFloat($("#shear_yx").val());
+  const yz = parseFloat($("#shear_yz").val());
+  const zx = parseFloat($("#shear_zx").val());
+  const zy = parseFloat($("#shear_zy").val());
+
   updateState({
     ...state,
     transformations: {
       ...state.transformations,
-      shear_x: createShearMatrix_X(x),
-      shear_y: createShearMatrix_Y(y),
+      shear: createShearMatrix(xy, xz, yx, yz, zx, zy),
     }
   });
 }

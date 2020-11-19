@@ -40,32 +40,17 @@ function createRatioMatrix(x,y,z){
 }
 
 /*
-Cisalhamento X
+Cisalhamento
 Formato da matriz:
-|1 x|         |1 x 0| 
-|0 1|         |0 1 0|
-              |0 0 1|
+        |1 xy xz| 
+        |yx 1 yz|
+        |zx zy 1|
 */
-function createShearMatrix_X(x){
+function createShearMatrix(xy, xz, yx, yz, zx, zy){
   return [
-    [1, parseFloat(x), 0, 0],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1]
-  ]; 
-}
-/*
-Cisalhamento Y
-Formato da matriz:
-|1 0|         |1 0 0| 
-|y 1|         |y 1 0|
-              |0 0 1|
-*/
-function createShearMatrix_Y(y){
-  return [
-    [1, 0, 0, 0],
-    [parseFloat(y), 1, 0, 0],
-    [0, 0, 1, 0],
+    [1, xy, xz, 0],
+    [yx, 1, yz, 0],
+    [zx, zy, 1, 0],
     [0, 0, 0, 1]
   ]; 
 }
