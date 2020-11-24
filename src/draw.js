@@ -41,6 +41,17 @@ $(document).ready(() => {
   $(".shear").on('input', (event) => {
     updateShear()
   })
+  $("#frameRate").on('input', (event) => {
+    jQuery
+    fps = parseInt($("#frameRate").val());
+    frameOffset = frameCount;
+    frameRate(fps);
+  })
+  $("#animation_time").on('input', (event) => {
+    jQuery
+    totalTime = parseFloat($("#animation_time").val());
+     
+  })
 
   $("#reset_transforms").on("click", () => {
     $("#ratio_x").val(1);
@@ -49,6 +60,7 @@ $(document).ready(() => {
     $("#shear_x").val(0);
     $("#shear_y").val(0);
     $('#isometric_projection').prop('checked',false);
+    $("#frameRate").val(30);
     updateScale();
     updateShear();
     updateProjection();
@@ -116,13 +128,17 @@ function updateShear() {
 }
 
 
+let fps = 30
+let frameOffset = 0
+let totalTime = 1
+
 function setup() {
   let renderer = createCanvas(600, 600, WEBGL); // createCanvas must be the first statement
   renderer.parent("#main");
   stroke('#F7CEAD'); // Set line drawing color
   background('#000'); // Set the background to black
   strokeWeight(2); // Set stroke size
-  noLoop();
+  frameRate(fps);
 };
 
 function getVertex(id, vertices) {
@@ -145,7 +161,7 @@ function transformVertices(vertices, transformations) {
   let transformationMatrix;
 
   for (const transformation in transformations) {
-    console.log(transformation);
+    // console.log(transformation);
     transformationMatrix = multiplyMatrix(transformations[transformation], transformationMatrix)
   };
 
@@ -219,15 +235,25 @@ function draw() {
   beginShape(TRIANGLES);
 
   const transformedVertices = transformVertices(vertices, transformations);
-  const projectedVertices = projection ? projectVertices(transformedVertices, projection) : transformedVertices
+  let currentFrame = (frameCount - frameOffset) % (fps * totalTime)
+  let totalFrames = parseInt(fps * totalTime);
 
-  console.log("Drawing", {
-    faces,
-    vertices,
+  const frameVertices = interpolate(
+    vertices, 
     transformedVertices,
-    projectedVertices
-  });
+    totalFrames,
+    currentFrame)
+  const projectedVertices = projection ? projectVertices(frameVertices, projection) : frameVertices
 
+  // console.log("Drawing", {
+  //   faces,
+  //   vertices,
+  //   transformedVertices,
+  //   projectedVertices
+  // });
+  
+  
+  
   for (const face of faces) {
     const {
       fill: fillColor,
