@@ -3,7 +3,8 @@ let state = {
   faces: [],
   vertices: [],
   projection: undefined,
-  gambiarra: false
+  gambiarra: false,
+  valid: false
 };
 
 function updateState (newState) {
@@ -11,3 +12,12 @@ function updateState (newState) {
   state = newState;
   redraw();
 };
+
+function checkValidAndUpdate(newState) {
+  // V + F - A = 2     ->      V + F - F*3/2 = 2     ->     V - F/2 = 2
+  euler = newState.vertices.length - (newState.faces.length/2) == 2
+  updateState({
+    ...newState,
+    valid: euler
+  });
+}

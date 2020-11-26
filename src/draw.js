@@ -10,7 +10,7 @@ $(document).ready(() => {
       file,
       'vertices',
       (data) => {
-        updateState({
+        checkValidAndUpdate({
           ...state,
           vertices: data
         });
@@ -24,10 +24,10 @@ $(document).ready(() => {
       file,
       'faces',
       (data) => {
-        updateState({
+        checkValidAndUpdate({
           ...state,
           faces: data
-        });
+        })
       }
     );
   });
@@ -231,7 +231,8 @@ function draw() {
     faces,
     vertices,
     transformations,
-    projection
+    projection,
+    valid
   } = state;
 
   // Clear board
@@ -262,27 +263,28 @@ function draw() {
   //   projectedVertices
   // });
 
-
-
-  for (const face of faces) {
-    const {
-      fill: fillColor,
-    } = face;
-
-    fillColor ? fill(`#${fillColor}`) : noFill();
-
-    for (v of ['v_1', 'v_2', 'v_3']) {
+  if (valid) {
+    for (const face of faces) {
       const {
-        x,
-        y,
-        z,
-        m
-      } = getVertex(face[v], projectedVertices);
-
-      // Draw vertex
-      vertex(x / m, y / m, z / m);
+        fill: fillColor,
+      } = face;
+  
+      fillColor ? fill(`#${fillColor}`) : noFill();
+  
+      for (v of ['v_1', 'v_2', 'v_3']) {
+        const {
+          x,
+          y,
+          z,
+          m
+        } = getVertex(face[v], projectedVertices);
+  
+        // Draw vertex
+        vertex(x / m, y / m, z / m);
+      }
     }
+  
+    endShape();
   }
-
-  endShape();
+  
 }
