@@ -50,16 +50,16 @@ $(document).ready(() => {
   $("#animation_time").on('input', (event) => {
     jQuery
     totalTime = parseFloat($("#animation_time").val());
-     
   })
+  $("#play_animation").on('input', (event) => {
+    animate  = $("#play_animation").is(":checked");
+    console.log(animate);
+  });
 
   $("#reset_transforms").on("click", () => {
-    $("#ratio_x").val(1);
-    $("#ratio_y").val(1);
-    $("#ratio_z").val(1);
-    $("#shear_x").val(0);
-    $("#shear_y").val(0);
-    $('#isometric_projection').prop('checked',false);
+    $(".shear").val(0);
+    
+    $('#isometric_projection').prop('checked', false);
     $("#frameRate").val(30);
     updateScale();
     updateShear();
@@ -84,13 +84,13 @@ function toggleGambiarra() {
 
   updateState({
     ...state,
-    projection: isometric ? (state.gambiarra? getProjectionMatrix("isometric") : getProjectionMatrix("isometric_gambiarra")) : undefined,
+    projection: isometric ? (state.gambiarra ? getProjectionMatrix("isometric") : getProjectionMatrix("isometric_gambiarra")) : undefined,
     gambiarra: !state.gambiarra
   });
 }
 
-function keyPressed(){
-  if(key=='g'){
+function keyPressed() {
+  if (key == 'g') {
     toggleGambiarra()
   }
 }
@@ -131,6 +131,7 @@ function updateShear() {
 let fps = 30
 let frameOffset = 0
 let totalTime = 1
+let animate = false;
 
 function setup() {
   let renderer = createCanvas(600, 600, WEBGL); // createCanvas must be the first statement
@@ -194,18 +195,21 @@ function projectVertices(vertices, projection) {
     y,
     z,
     m
-  }) => [[x,y,z,m]]
-  );
+  }) => [
+    [x, y, z, m]
+  ]);
 
   let newVertices = [];
 
   verticesMatrix.forEach((vertex, index) => {
-    const [[
-      new_x,
-      new_y,
-      new_z,
-      old_m
-    ]] = multiplyMatrix(vertex, projection);
+    const [
+      [
+        new_x,
+        new_y,
+        new_z,
+        old_m
+      ]
+    ] = multiplyMatrix(vertex, projection);
 
     newVertices.push({
       id: vertices[index].id, // Getting id from vertices array, as it's in same order from verticesMatrix
@@ -235,15 +239,21 @@ function draw() {
   beginShape(TRIANGLES);
 
   const transformedVertices = transformVertices(vertices, transformations);
-  let currentFrame = (frameCount - frameOffset) % (fps * totalTime)
-  let totalFrames = parseInt(fps * totalTime);
+  let projectedVertices = null;
+  if (animate) {
+    let currentFrame = (frameCount - frameOffset) % (fps * totalTime)
+    let totalFrames = parseInt(fps * totalTime);
+    const frameVertices = interpolate(
+      vertices,
+      transformedVertices,
+      totalFrames,
+      currentFrame)
+    projectedVertices = projection ? projectVertices(frameVertices, projection) : frameVertices
+  } else {
+    projectedVertices = projection ? projectVertices(transformedVertices, projection) : transformedVertices
+  }
 
-  const frameVertices = interpolate(
-    vertices, 
-    transformedVertices,
-    totalFrames,
-    currentFrame)
-  const projectedVertices = projection ? projectVertices(frameVertices, projection) : frameVertices
+
 
   // console.log("Drawing", {
   //   faces,
@@ -251,9 +261,9 @@ function draw() {
   //   transformedVertices,
   //   projectedVertices
   // });
-  
-  
-  
+
+
+
   for (const face of faces) {
     const {
       fill: fillColor,
@@ -270,7 +280,7 @@ function draw() {
       } = getVertex(face[v], projectedVertices);
 
       // Draw vertex
-      vertex(x/m, y/m, z/m);
+      vertex(x / m, y / m, z / m);
     }
   }
 
