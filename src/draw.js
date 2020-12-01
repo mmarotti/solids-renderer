@@ -74,7 +74,8 @@ function updateProjection() {
   updateState({
     ...state,
     projection: isometric ? getProjectionMatrix("isometric") : undefined,
-    gambiarra: false
+    gambiarra: false,
+    sorted : false,
   });
 }
 
@@ -85,7 +86,8 @@ function toggleGambiarra() {
   updateState({
     ...state,
     projection: isometric ? (state.gambiarra ? getProjectionMatrix("isometric") : getProjectionMatrix("isometric_gambiarra")) : undefined,
-    gambiarra: !state.gambiarra
+    gambiarra: !state.gambiarra,
+    sorted : false,
   });
 }
 
@@ -123,7 +125,8 @@ function updateShear() {
     transformations: {
       ...state.transformations,
       shear: createShearMatrix(xy, xz, yx, yz, zx, zy),
-    }
+    },
+    sorted : false,
   });
 }
 
@@ -188,40 +191,6 @@ function transformVertices(vertices, transformations) {
   return newVertices;
 };
 
-function projectVertices(vertices, projection) {
-
-  const verticesMatrix = vertices.map(({
-    x,
-    y,
-    z,
-    m
-  }) => [
-    [x, y, z, m]
-  ]);
-
-  let newVertices = [];
-
-  verticesMatrix.forEach((vertex, index) => {
-    const [
-      [
-        new_x,
-        new_y,
-        new_z,
-        old_m
-      ]
-    ] = multiplyMatrix(vertex, projection);
-
-    newVertices.push({
-      id: vertices[index].id, // Getting id from vertices array, as it's in same order from verticesMatrix
-      x: new_x,
-      y: new_y,
-      z: new_z,
-      m: old_m
-    });
-  })
-  return newVertices
-}
-
 // The statements in draw() are executed until the
 // program is stopped. Each statement is executed in
 // sequence and after the last line is read, the first
@@ -232,7 +201,8 @@ function draw() {
     vertices,
     transformations,
     projection,
-    valid
+    valid,
+    sorted
   } = state;
 
   // Clear board
@@ -240,6 +210,7 @@ function draw() {
   beginShape(TRIANGLES);
 
   const transformedVertices = transformVertices(vertices, transformations);
+  let rotatedVertices = null;
   let projectedVertices = null;
   if (animate) {
     let totalFrames = parseInt(fps * totalTime);
@@ -249,9 +220,11 @@ function draw() {
       transformedVertices,
       totalFrames,
       currentFrame)
-    projectedVertices = projection ? projectVertices(frameVertices, projection) : frameVertices
+    rotatedVertices = projection ? rotateVertices(frameVertices, projection) : frameVertices
+    projectedVertices = projection? projectVertices(rotatedVertices, projection) : frameVertices;
   } else {
-    projectedVertices = projection ? projectVertices(transformedVertices, projection) : transformedVertices
+    rotatedVertices = projection ? rotateVertices(transformedVertices, projection) : transformedVertices
+    projectedVertices = projection? projectVertices(rotatedVertices, projection) : transformedVertices;
   }
 
 
@@ -264,6 +237,24 @@ function draw() {
   // });
 
   if (valid) {
+    if (!sorted) {
+
+      faces.sort(function (a, b){
+        let aZ = 0
+        let bZ = 0
+        for (v of ['v_1', 'v_2', 'v_3']) {
+          aZ += getVertex(a[v], rotatedVertices).z;
+          bZ += getVertex(b[v], rotatedVertices).z;
+        }
+        return aZ>bZ? 1 : -1;
+      });
+      updateState({
+        ...state,
+        faces : faces,
+        sorted : true,
+      });
+    }
+
     for (const face of faces) {
       const {
         fill: fillColor,

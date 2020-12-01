@@ -4,7 +4,8 @@ let state = {
   vertices: [],
   projection: undefined,
   gambiarra: false,
-  valid: false
+  valid: false,
+  sorted: false
 };
 
 function updateState (newState) {

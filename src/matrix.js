@@ -58,12 +58,20 @@ function createShearMatrix(xy, xz, yx, yz, zx, zy){
 function getProjectionMatrix(type){
   switch (type) {
     case "isometric":
-      return [
-        [0.707, 0.408, 0, 0],
-        [0, 0.816, 0, 0],
-        [-0.707, 0.408, 0, 0],
-        [0, 0, 0, 1],
-      ];
+      return {
+        rotation : [
+          [0.707, 0.408, 0.577, 0],
+          [0, 0.816, -0.577, 0],
+          [-0.707, 0.408, 0.577, 0],
+          [0, 0, 0, 1],
+        ],
+        ortogonal : [
+          [1, 0, 0, 0],
+          [0, 1, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 1],
+        ],
+      };
     case "isometric_gambiarra":
       return [
         [0.707, 0.408, 0.577, 0],
