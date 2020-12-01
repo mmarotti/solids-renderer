@@ -41,9 +41,9 @@ $(document).ready(() => {
   $(".shear").on('input', (event) => {
     updateShear()
   })
-  $("#frameRate").on('input', (event) => {
+  $("#frameRateHTML").on('input', (event) => {
     jQuery
-    fps = parseInt($("#frameRate").val());
+    fps = parseInt($("#frameRateHTML").val());
     frameOffset = frameCount;
     frameRate(fps);
   })
