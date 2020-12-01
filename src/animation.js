@@ -1,6 +1,6 @@
 function interpolate (objStart, objEnd, framesTotal, currentFrame) {
   let objFrame = [] //objeto nestra frame
-  for(let vIndex = 0; vIndex < objStart.length; vIndex++){ //para cada face
+  for(let vIndex = 0; vIndex < objStart.length; vIndex++){ //para cada vértice
     current_face = []
     //descobrimos os deltas por pontos
     let deltaX = objEnd[vIndex]['x'] - objStart[vIndex]['x']
