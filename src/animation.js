@@ -1,21 +1,21 @@
 function interpolate (objStart, objEnd, framesTotal, currentFrame) {
   let objFrame = [] //objeto nestra frame
-  for(let fIndex = 0; fIndex < objStart.length; fIndex++){ //para cada face
+  for(let vIndex = 0; vIndex < objStart.length; vIndex++){ //para cada face
     current_face = []
     //descobrimos os deltas por pontos
-    let deltaX = objEnd[fIndex]['x'] - objStart[fIndex]['x'] 
-    let deltaY = objEnd[fIndex]['y'] - objStart[fIndex]['y']
-    let deltaZ = objEnd[fIndex]['z'] - objStart[fIndex]['z'] 
+    let deltaX = objEnd[vIndex]['x'] - objStart[vIndex]['x']
+    let deltaY = objEnd[vIndex]['y'] - objStart[vIndex]['y']
+    let deltaZ = objEnd[vIndex]['z'] - objStart[vIndex]['z']
     //somamos o delta ao objeto inicial, dependendo da frame atual e framerate
     
-    objFace = {
-      'x': parseInt(objStart[fIndex]['x']) + deltaX/framesTotal * currentFrame,
-      'y': parseInt(objStart[fIndex]['y']) + deltaY/framesTotal * currentFrame,
-      'z': parseInt(objStart[fIndex]['z']) + deltaZ/framesTotal * currentFrame,
-      'm': objStart[fIndex]['m'],
-      'id': objStart[fIndex]['id']
+    objVertex = {
+      'x': parseInt(objStart[vIndex]['x']) + deltaX/framesTotal * currentFrame,
+      'y': parseInt(objStart[vIndex]['y']) + deltaY/framesTotal * currentFrame,
+      'z': parseInt(objStart[vIndex]['z']) + deltaZ/framesTotal * currentFrame,
+      'm': objStart[vIndex]['m'],
+      'id': objStart[vIndex]['id']
     }
-    objFrame.push(objFace);
+    objFrame.push(objVertex);
   }
 
   return objFrame;

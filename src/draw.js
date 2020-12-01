@@ -242,8 +242,8 @@ function draw() {
   const transformedVertices = transformVertices(vertices, transformations);
   let projectedVertices = null;
   if (animate) {
-    let currentFrame = (frameCount - frameOffset) % (fps * totalTime)
     let totalFrames = parseInt(fps * totalTime);
+    let currentFrame = (frameCount - frameOffset) % totalFrames
     const frameVertices = interpolate(
       vertices,
       transformedVertices,

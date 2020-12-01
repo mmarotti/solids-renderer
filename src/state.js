@@ -20,4 +20,5 @@ function checkValidAndUpdate(newState) {
     ...newState,
     valid: euler
   });
+  console.log("Euler", euler)
 }
