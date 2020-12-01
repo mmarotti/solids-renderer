@@ -16,7 +16,7 @@ async function setCircle() {
     complete: function (results) {
       const value = mapToObject(results.data, 'faces');
       
-      updateState({
+      checkValidAndUpdate({
         ...state,
         faces: value
       });
