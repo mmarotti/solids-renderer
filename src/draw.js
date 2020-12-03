@@ -80,7 +80,7 @@ function updateProjection() {
 }
 
 //Gambiarra Section
-function toggleGambiarra() {
+function toggleIsometric() {
   const isometric = $("#isometric_projection").is(":checked");
 
   updateState({
@@ -93,7 +93,7 @@ function toggleGambiarra() {
 
 function keyPressed() {
   if (key == 'g') {
-    toggleGambiarra()
+    toggleIsometric()
   }
 }
 //END
