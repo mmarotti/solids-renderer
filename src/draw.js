@@ -108,7 +108,8 @@ function updateScale() {
     transformations: {
       ...state.transformations,
       ratio: createRatioMatrix(x, y, z),
-    }
+    },
+    sorted : false,
   });
 }
 
@@ -243,8 +244,8 @@ function draw() {
         let aZ = 0
         let bZ = 0
         for (v of ['v_1', 'v_2', 'v_3']) {
-          aZ += getVertex(a[v], rotatedVertices).z;
-          bZ += getVertex(b[v], rotatedVertices).z;
+          aZ += getVertex(a[v], transformedVertices).z;
+          bZ += getVertex(b[v], transformedVertices).z;
         }
         return aZ>bZ? 1 : -1;
       });
